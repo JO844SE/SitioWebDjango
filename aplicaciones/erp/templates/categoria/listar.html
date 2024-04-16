@@ -1,4 +1,5 @@
-{% extends 'listar.html' %}
+{% extends 'list.html' %}
+
 
 {% block columns %}
     <tr>
@@ -11,15 +12,24 @@
 {% block rows %}
     {% for c in object_list %}
 
-        <tr>
+        <tr id="empleado_{{ c.id }}">
             <td>{{ c.id }}</td>
             <td>{{ c.name }}</td>
             <td>
-                <button type="button" class="btn btn-warning btn-xs"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-danger btn-xs"><i class="fas fa-trash-alt"></i>
-                </button>
+                <a href="{% url 'erp:editarCategoria' c.id %}" type="button" class="btn btn-warning btn-xs"><i
+                        class="fas fa-edit"></i></a>
+
+                <a href="{% url 'erp:eliminarCategoria' c.id %}" type="button" class="btn btn-danger btn-xs ">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
 
             </td>
         </tr>
     {% endfor %}
+
 {% endblock %}
+
+
+
+
+

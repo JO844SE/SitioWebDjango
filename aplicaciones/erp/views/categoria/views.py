@@ -1,16 +1,12 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
-
 from aplicaciones.erp.forms import CategoryForm
 from aplicaciones.erp.models import Category
-
 #vistas genericas de django
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 #decorador
 from django.utils.decorators import method_decorator
-
-
 #Vistas basadas en funcion
 def category_list(request):
     data = {
@@ -31,6 +27,7 @@ class CategoryListView(ListView):
         contex = super().get_context_data(**kwargs)
         contex['title'] = 'Listado de Categorías'
         contex['create_url'] = reverse_lazy('erp:crearCategoria')
+        contex['edit_url'] = reverse_lazy('erp:editarCategoria')
         contex['list_url'] = reverse_lazy('erp:listarCategoria')
         contex['entity'] = 'Categorías'
         return contex
@@ -47,22 +44,26 @@ class CategoryCreateView(CreateView):
     #reverse_lazy para redireccionar a una plantilla
     success_url = reverse_lazy('erp:listarCategoria')
 
-    def post(self, request, *args, **kwargs):
-        data = {}
-        try:
-            action = request.POST['action']
-            if action == 'add':
-                #form = CategoryForm(request.POST)
-                form = self.get_form()
-                if form.is_valid():
-                    form.save()
-                else:
-                   data['error'] = form.errors
-            else:
-                data['error'] = 'No ha ingresado a ninguna opción'
-        except Exception as e:
-            data['error'] = str(e)
-        return JsonResponse(data)
+
+
+
+    # Se modifica metodo post para trabajar con ajax
+    # def post(self, request, *args, **kwargs):
+    #     data = {}
+    #     try:
+    #         action = request.POST['action']
+    #         if action == 'add':
+    #             #form = CategoryForm(request.POST)
+    #             form = self.get_form()
+    #             if form.is_valid():
+    #                 form.save()
+    #             else:
+    #                data['error'] = form.errors
+    #         else:
+    #             data['error'] = 'No ha ingresado a ninguna opción'
+    #     except Exception as e:
+    #         data['error'] = str(e)
+    #     return JsonResponse(data)
 
 
     def get_context_data(self, **kwargs):
@@ -72,4 +73,37 @@ class CategoryCreateView(CreateView):
         contex['list_url'] = reverse_lazy('erp:listarCategoria')
         contex['action'] = 'add'
         return contex
+
+
+class CategoyUpdateView(UpdateView):
+    model = Category
+    fields = '__all__'
+    template_name = 'categoria/registrar.html'
+    #reverse_lazy para redireccionar a una plantilla
+    success_url = reverse_lazy('erp:listarCategoria')
+
+
+    def get_context_data(self, **kwargs):
+        contex = super().get_context_data(**kwargs)
+        contex['title'] = 'Editar Categorías'
+        contex['entity'] = 'Categorías'
+        contex['list_url'] = reverse_lazy('erp:listarCategoria')
+        contex['action'] = 'edit'
+        return contex
+
+
+class CategoyDeleteView(DeleteView):
+    model = Category
+    template_name = 'categoria/eliminar.html'
+    success_url = reverse_lazy('erp:listarCategoria')
+
+    def get_context_data(self, **kwargs):
+        contex = super().get_context_data(**kwargs)
+        contex['title'] = 'Eliminar Categoría'
+        contex['entity'] = 'Categorías'
+        contex['list_url'] = reverse_lazy('erp:listarCategoria')
+        return contex
+
+
+
 

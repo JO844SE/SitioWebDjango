@@ -74,7 +74,7 @@ from aplicaciones.erp.choices import gender_choices
 
 class Category(models.Model):
     name = models.CharField(max_length=150, verbose_name='Nombre', unique=True)
-    desc = models.CharField(max_length=150, unique=True, verbose_name='Descripción')
+    desc = models.CharField(max_length=150, unique=True, verbose_name='Descripción', blank=True, null=True)
 
     def __str__(self):
         return self.name
