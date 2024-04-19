@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from aplicaciones.erp.forms import CategoryForm
@@ -18,9 +18,15 @@ def category_list(request):
 
 #Lista basada en clases con vistas genericas de Django
 #Trabajar con clases es mas eficientes
+
+
 class CategoryListView(ListView):
     model = Category
     template_name = 'categoria/listar.html'
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
     #Metodo para mandar parametros a traves de vistas basadas en clase
     def get_context_data(self, **kwargs):
@@ -44,8 +50,9 @@ class CategoryCreateView(CreateView):
     #reverse_lazy para redireccionar a una plantilla
     success_url = reverse_lazy('erp:listarCategoria')
 
-
-
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
     # Se modifica metodo post para trabajar con ajax
     # def post(self, request, *args, **kwargs):
@@ -82,6 +89,10 @@ class CategoyUpdateView(UpdateView):
     #reverse_lazy para redireccionar a una plantilla
     success_url = reverse_lazy('erp:listarCategoria')
 
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
 
     def get_context_data(self, **kwargs):
         contex = super().get_context_data(**kwargs)
@@ -96,6 +107,10 @@ class CategoyDeleteView(DeleteView):
     model = Category
     template_name = 'categoria/eliminar.html'
     success_url = reverse_lazy('erp:listarCategoria')
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         contex = super().get_context_data(**kwargs)

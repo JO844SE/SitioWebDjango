@@ -44,7 +44,7 @@
         </div>
 
     </div>
-    
+
 
 {% endblock %}
 
@@ -58,18 +58,18 @@
                 autoWidth: false //Respeta el ancho que se le de a cada columna
             });
 
-            $('.btnTest').on('click',  function () {
+            $('.btnTest').on('click', function () {
                 $.ajax({
                     url: '{% url 'erp:listarCategoria' %}',
                     type: 'POST',
                     data: {id: 1},
                     dataType: 'json'
 
-                }).done( function (data) {
+                }).done(function (data) {
                     console.log(data);
-                }).fail( function (data) {
+                }).fail(function (data) {
 
-                }).always( function (data) {
+                }).always(function (data) {
 
                 })
             });

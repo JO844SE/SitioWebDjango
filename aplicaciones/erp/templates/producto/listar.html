@@ -1,0 +1,74 @@
+{% extends 'list.html' %}
+{#{% load static %}#}
+{#{% block head_list %}#}
+{#    <script src="{% static 'producto/js/list.js' %}"></script>#}
+{#{% endblock %}#}
+
+{% block columns %}
+    <tr>
+        <th scope="col" style="width: 10%;">Nro</th>
+        <th scope="col" style="width: 20%;">Nombre</th>
+        <th scope="col" style="width: 15%;">Categoria</th>
+        <th scope="col" style="width: 10%;">Imagen</th>
+        <th scope="col" style="width: 10%;">Stock</th>
+        <th scope="col" style="width: 15%;">Precio</th>
+        <th scope="col" style="width: 20%;">Opciones</th>
+    </tr>
+{% endblock %}
+
+
+{% block rows %}
+    {% for c in object_list %}
+
+        <tr>
+            <td>{{ c.id }}</td>
+            <td>{{ c.name }}</td>
+            <td>{{ c.cat }}</td>
+            <td>
+                <img src="{{ c.get_image }}" class="img-fluid mx-auto"
+                     style="width: 40px;  height: 40px;" alt="">
+            </td>
+            <td>{{ c.stock }}</td>
+            <td>{{ c.pvp }}</td>
+            <td>
+                <a href="{% url 'erp:product_update' c.id %}" type="button" class="btn btn-warning btn-xs"><i
+                        class="fas fa-edit"></i></a>
+
+                <a href="{% url 'erp:product_delete' c.id %}" type="button" class="btn btn-danger btn-xs ">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
+
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+{% block javascript %}
+ <script type="application/javascript">
+        $(function () {
+            $('#data').DataTable({
+                responsive: true, //Autoajusta el contenido de la tabla responsive
+                autoWidth: false //Respeta el ancho que se le de a cada columna
+            });
+
+            /*
+            $('.btnTest').on('click', function () {
+                $.ajax({
+                    url: '{% url 'erp:product_list' %}',
+                    type: 'POST',
+                    data: {id: 1},
+                    dataType: 'json'
+
+                }).done(function (data) {
+                    console.log(data);
+                }).fail(function (data) {
+
+                }).always(function (data) {
+
+                })
+            });*/
+
+        })
+
+    </script>
+{% endblock %}

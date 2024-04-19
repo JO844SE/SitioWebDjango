@@ -1,4 +1,4 @@
 gender_choices = (
-    ('male','Masculino'),
-    ('female','Femenino'),
+    ('Masculino','Masculino'),
+    ('Femenino','Femenino'),
 )

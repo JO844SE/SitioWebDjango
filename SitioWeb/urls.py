@@ -19,6 +19,9 @@ from django.urls import path, include
 from aplicaciones.homepage.views import IndexView
 from aplicaciones.login.views import LoginFormView, LoginFormView2
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path("", IndexView.as_view()),
     path("login/", include('aplicaciones.login.urls')),
@@ -26,3 +29,5 @@ urlpatterns = [
     path("erp/", include('aplicaciones.erp.urls')),
 
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
